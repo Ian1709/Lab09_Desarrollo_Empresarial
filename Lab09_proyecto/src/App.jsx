@@ -1,7 +1,11 @@
 function App() {
   return (
     <div className="app">
-      <h1>CineStar</h1>
+      <main className="main-content">
+        <div className="container">
+          <h1>CineStar</h1>
+        </div>
+      </main>
     </div>
   )
 }
