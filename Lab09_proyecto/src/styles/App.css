@@ -449,6 +449,9 @@ button {
 .movie-card__schedule-title { margin-top: var(--space-xs); color: var(--color-text-muted); font-size: var(--font-size-xs); letter-spacing: 0.06em; text-transform: uppercase; }
 .movie-card__schedules { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
 .movie-card__schedules li { padding: 0.25rem 0.5rem; border-radius: var(--radius-sm); background: var(--color-background-soft); color: var(--color-text-secondary); font-size: var(--font-size-xs); }
+.movie-list__section { margin-top: var(--space-2xl); }
+.movie-list { margin-top: var(--space-lg); }
+.movie-list__empty { margin-top: var(--space-lg); color: var(--color-text-secondary); }
 
 /* Shared helpers
    ========================================================================== */
