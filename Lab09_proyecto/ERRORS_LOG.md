@@ -82,3 +82,9 @@ movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)
 ## Alcance de la evidencia
 
 Los mensajes anteriores corresponden a las herramientas indicadas y a los fragmentos mínimos mostrados; no son una transcripción de una captura tomada durante esta entrega. Se documentan los casos y sus soluciones sin introducir fallos en la aplicación final.
+
+## Verificación final
+
+- `npm run build`: compilación de producción completada correctamente.
+- `npm run lint`: finalizado sin errores ni advertencias.
+- La aplicación final conserva `className`, un único nodo raíz por retorno y `key={movie.id}` al recorrer películas.
