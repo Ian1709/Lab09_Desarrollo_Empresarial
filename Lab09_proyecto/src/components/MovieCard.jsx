@@ -1,4 +1,6 @@
-function MovieCard({ movie }) {
+import Button from './Button.jsx'
+
+function MovieCard({ movie, isFavorite = false, onToggleFavorite }) {
   return (
     <article className="movie-card">
       <img className="movie-card__image" src={movie.image} alt={`${movie.title} poster`} loading="lazy" />
@@ -12,6 +14,15 @@ function MovieCard({ movie }) {
         <ul className="movie-card__schedules">
           {movie.schedules.map((schedule) => <li key={schedule}>{schedule}</li>)}
         </ul>
+        <Button
+          variant={isFavorite ? 'favorite-active' : 'favorite'}
+          className="movie-card__favorite"
+          onClick={() => onToggleFavorite?.(movie.id)}
+          aria-pressed={isFavorite}
+        >
+          <span aria-hidden="true">{isFavorite ? '★' : '☆'}</span>
+          {isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+        </Button>
       </div>
     </article>
   )
