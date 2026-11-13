@@ -4,6 +4,7 @@ import Footer from './components/Footer.jsx'
 import Hero from './components/Hero.jsx'
 import MovieList from './components/MovieList.jsx'
 import { movies } from './data/movies.js'
+import useDebouncedValue from './hooks/useDebouncedValue.js'
 import { readFavoriteIds, writeFavoriteIds } from './utils/favoritesStorage.js'
 
 const validMovieIds = new Set(movies.map((movie) => movie.id))
@@ -12,10 +13,19 @@ function App() {
   const [favoriteIds, setFavoriteIds] = useState(() =>
     readFavoriteIds().filter((movieId) => validMovieIds.has(movieId)),
   )
+  const [searchTerm, setSearchTerm] = useState('')
+  const debouncedSearchTerm = useDebouncedValue(searchTerm, 400)
 
   useEffect(() => {
     writeFavoriteIds(favoriteIds)
   }, [favoriteIds])
+
+  useEffect(() => {
+    if (!import.meta.env.DEV) return
+
+    console.log('[CineStar] search input:', JSON.stringify(searchTerm))
+    console.log('[CineStar] applied filter:', JSON.stringify(debouncedSearchTerm))
+  }, [searchTerm, debouncedSearchTerm])
 
   const toggleFavorite = (movieId) => {
     setFavoriteIds((currentIds) =>
@@ -28,7 +38,11 @@ function App() {
   return (
     <div className="app" id="top">
       <Header />
-      <Hero movie={movies[0]} />
+      <Hero
+        movie={movies[0]}
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+      />
 
       <main className="main-content">
         <section className="section" id="billboard">
