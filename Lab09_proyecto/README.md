@@ -14,12 +14,16 @@ El historial de Git registra las contribuciones de ambos integrantes:
 ## Funcionalidades
 
 - Encabezado con marca CineStar y navegación a las secciones de la página.
-- Banner destacado con imagen, sinopsis, clasificación, valoración y acceso a horarios.
+- Banner destacado con imagen, sinopsis, clasificación, valoración, buscador y acceso a horarios.
 - Cartelera renderizada desde datos locales mediante componentes reutilizables.
-- Tarjetas con póster, título, valoración, clasificación y horarios disponibles.
+- Tarjetas con póster, título, valoración, clasificación, horarios y botón de favorita.
+- Favoritas persistentes en `localStorage`, recuperadas al cargar la página.
+- Buscador controlado con retardo de 400 ms, filtrado por título, resumen de resultados y estado vacío.
+- Botón reutilizable con variantes de estilo y soporte para enlaces.
 - Diseño adaptable a distintos tamaños de pantalla y preferencias de movimiento reducido.
 - Pie de página con contacto, enlaces y horario de atención.
 - Registro de ejemplos y soluciones de errores comunes en [`ERRORS_LOG.md`](./ERRORS_LOG.md).
+- Decisiones de estado y evidencias de la segunda etapa en [`docs/ENTREGABLE_PARTE2.md`](./docs/ENTREGABLE_PARTE2.md).
 
 ## Tecnologías
 
@@ -59,21 +63,31 @@ Vite mostrará la dirección local para abrir la aplicación en el navegador.
 ```text
 src/
 ├── components/
+│   ├── Button.jsx
 │   ├── Footer.jsx
 │   ├── Header.jsx
 │   ├── Hero.jsx
 │   ├── MovieCard.jsx
-│   └── MovieList.jsx
+│   ├── MovieList.jsx
+│   └── MovieSearch.jsx
 ├── data/
 │   └── movies.js
+├── hooks/
+│   └── useDebouncedValue.js
 ├── styles/
 │   └── App.css
+├── utils/
+│   └── favoritesStorage.js
 ├── App.jsx
 └── main.jsx
+docs/
+├── ENTREGABLE_PARTE2.md
+└── evidence/
+    └── empty-search.png
 ERRORS_LOG.md
 ```
 
-Los datos de las películas se mantienen en `src/data/movies.js`; `App.jsx` los entrega a `Hero` y `MovieList` mediante props. `MovieList` crea una tarjeta por película y utiliza `movie.id` como clave.
+Los datos de las películas se mantienen en `src/data/movies.js`; `App.jsx` los entrega a `Hero` y `MovieList` mediante props, y también concentra el estado de favoritas y de búsqueda. `MovieList` crea una tarjeta por película, utiliza `movie.id` como clave y filtra el arreglo según el texto ya retardado. `MovieCard` reutiliza `Button` para la acción de favorita.
 
 ## Errores comunes documentados
 
