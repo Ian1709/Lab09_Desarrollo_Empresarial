@@ -1,6 +1,7 @@
 import Button from './Button.jsx'
+import MovieSearch from './MovieSearch.jsx'
 
-function Hero({ movie }) {
+function Hero({ movie, searchTerm = '', onSearchChange, onSearchSubmit }) {
   if (!movie) return null
 
   return (
@@ -17,9 +18,16 @@ function Hero({ movie }) {
           <span className="classification">{movie.classification}</span>
           <span aria-label={`Rating ${movie.rating} out of 10`}>★ {movie.rating}</span>
         </div>
-        <Button href="#premieres" variant="primary">
-          Explore showtimes
-        </Button>
+        <div className="hero__actions">
+          <MovieSearch
+            value={searchTerm}
+            onChange={onSearchChange}
+            onSubmit={onSearchSubmit}
+          />
+          <Button href="#premieres" variant="secondary">
+            Explore showtimes
+          </Button>
+        </div>
       </div>
     </section>
   )

@@ -1,21 +1,55 @@
 import MovieCard from './MovieCard.jsx'
 
-function MovieList({ movies, favoriteIds = [], onToggleFavorite }) {
-  if (!movies?.length) {
+const normalizeText = (value) => value.trim().toLowerCase()
+
+function MovieList({
+  movies = [],
+  favoriteIds = [],
+  onToggleFavorite,
+  searchTerm = '',
+}) {
+  if (!movies.length) {
     return <p className="movie-list__empty">No movies are available right now.</p>
   }
 
+  const query = normalizeText(searchTerm)
+  const visibleMovies = query
+    ? movies.filter((movie) => normalizeText(movie.title).includes(query))
+    : movies
+
+  if (!visibleMovies.length) {
+    return (
+      <div className="movie-list__empty" role="status">
+        <p className="movie-list__empty-title">No movies found</p>
+        <p className="movie-list__empty-text">
+          We could not find any movie matching{' '}
+          <strong className="movie-list__empty-query">
+            &ldquo;{searchTerm.trim()}&rdquo;
+          </strong>
+          . Try a different title.
+        </p>
+      </div>
+    )
+  }
+
   return (
-    <div className="grid movie-list">
-      {movies.map((movie) => (
-        <MovieCard
-          key={movie.id}
-          movie={movie}
-          isFavorite={favoriteIds.includes(movie.id)}
-          onToggleFavorite={onToggleFavorite}
-        />
-      ))}
-    </div>
+    <>
+      {query && (
+        <p className="movie-list__summary" role="status">
+          Showing {visibleMovies.length} of {movies.length} movies.
+        </p>
+      )}
+      <div className="grid movie-list">
+        {visibleMovies.map((movie) => (
+          <MovieCard
+            key={movie.id}
+            movie={movie}
+            isFavorite={favoriteIds.includes(movie.id)}
+            onToggleFavorite={onToggleFavorite}
+          />
+        ))}
+      </div>
+    </>
   )
 }
 

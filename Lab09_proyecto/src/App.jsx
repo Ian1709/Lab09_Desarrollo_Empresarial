@@ -35,6 +35,22 @@ function App() {
     )
   }
 
+  const handleSearchSubmit = (event) => {
+    event.preventDefault()
+
+    const billboard = document.getElementById('premieres')
+    if (!billboard) return
+
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+
+    billboard.scrollIntoView({
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      block: 'start',
+    })
+  }
+
   return (
     <div className="app" id="top">
       <Header />
@@ -42,6 +58,7 @@ function App() {
         movie={movies[0]}
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
+        onSearchSubmit={handleSearchSubmit}
       />
 
       <main className="main-content">
@@ -57,6 +74,7 @@ function App() {
                 movies={movies}
                 favoriteIds={favoriteIds}
                 onToggleFavorite={toggleFavorite}
+                searchTerm={debouncedSearchTerm}
               />
             </div>
           </div>
