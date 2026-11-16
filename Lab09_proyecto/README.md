@@ -101,6 +101,8 @@ docs/
 └── evidence/
     ├── empty-search.png
     ├── lab10-favorite-counter.jpeg
+    ├── lab10-clear-filter-active.jpeg
+    ├── lab10-clear-filter-cleared.jpeg
     ├── lab10-premieres-error.jpeg
     ├── lab10-premieres-loading.jpeg
     └── lab10-premieres-success.jpeg

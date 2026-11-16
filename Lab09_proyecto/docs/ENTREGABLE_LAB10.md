@@ -403,6 +403,10 @@ al pulsarlo, el input quedó vacío, reaparecieron las 8 tarjetas y el resumen
 desapareció. El buscador, el botón y el listado siguen sincronizados porque
 todos leen el mismo estado de `App`.
 
+![Filtro activo con el botón para limpiar](./evidence/lab10-clear-filter-active.jpeg)
+
+![Filtro limpiado: input vacío, botón oculto y ocho películas](./evidence/lab10-clear-filter-cleared.jpeg)
+
 ---
 
 ## 13. Verificación técnica
