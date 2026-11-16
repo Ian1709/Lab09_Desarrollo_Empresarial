@@ -489,7 +489,41 @@ git log --oneline --decorate
 
 ---
 
-## 15. Alcance y siguientes pasos
+## 15. Conclusiones
+
+1. **Una sola fuente de verdad simplifica toda la interfaz.** Mantener
+   `favoriteIds` en `App` y derivar `favoriteCount` permitió que las tarjetas y
+   la cabecera reflejen siempre el mismo estado sin duplicarlo. `Header` recibe
+   solo un número, lo que demuestra que el estado compartido debe elevarse al
+   ancestro común y no vivir en un componente presentacional.
+
+2. **Los hooks propios encapsulan lógica y hacen explícitos los estados.**
+   `useDebounce`, `useWindowSize` y `usePremieres` separaron temporizadores,
+   eventos del navegador y peticiones del render de los componentes. En
+   particular, `usePremieres` modela `loading`, `success` y `error` con
+   `retry`, lo que convirtió el esqueleto, el carrusel y el mensaje de error en
+   casos previsibles y comprobables.
+
+3. **El adaptador protege la interfaz de los cambios del origen de datos.**
+   `movieAdapter` centralizó la traducción de `movieId`, `posterUrl`,
+   `showtimes`, `ageRating` y `voteAverage` al modelo interno. Así los
+   componentes no conocen el formato externo y reciben datos normalizados
+   (valoración numérica y horarios válidos), lo que reduce condicionales y
+   facilita sustituir la fuente de datos en el futuro.
+
+4. **La retroalimentación y la accesibilidad completan la funcionalidad.**
+   El toast con `aria-live`, el contador con etiqueta accesible, el esqueleto
+   con `role="status"`, el error con `role="alert"` y el botón de limpiar filtro
+   sincronizado hacen que la aplicación comunique lo que ocurre y sea usable con
+   teclado y lector de pantalla. Documentar el árbol de componentes y el dato de
+   cada nivel dejó explícito el diseño y facilita su mantenimiento.
+
+En conjunto, el laboratorio muestra que un diseño cuidadoso del estado y de las
+responsabilidades de cada componente aporta más que la cantidad de código.
+
+---
+
+## 16. Alcance y siguientes pasos
 
 La aplicación sigue siendo un prototipo frontend con datos locales y un servicio
 de estrenos simulado: no hay backend real, autenticación ni pruebas
