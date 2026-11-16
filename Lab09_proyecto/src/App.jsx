@@ -5,7 +5,7 @@ import Hero from './components/Hero.jsx'
 import MovieList from './components/MovieList.jsx'
 import Toast from './components/Toast.jsx'
 import { movies } from './data/movies.js'
-import useDebouncedValue from './hooks/useDebouncedValue.js'
+import useDebounce from './hooks/useDebounce.js'
 import { readFavoriteIds, writeFavoriteIds } from './utils/favoritesStorage.js'
 
 const validMovieIds = new Set(movies.map((movie) => movie.id))
@@ -15,7 +15,7 @@ function App() {
     readFavoriteIds().filter((movieId) => validMovieIds.has(movieId)),
   )
   const [searchTerm, setSearchTerm] = useState('')
-  const debouncedSearchTerm = useDebouncedValue(searchTerm, 400)
+  const debouncedSearchTerm = useDebounce(searchTerm, 400)
   const [toast, setToast] = useState(null)
 
   const dismissToast = useCallback(() => setToast(null), [])

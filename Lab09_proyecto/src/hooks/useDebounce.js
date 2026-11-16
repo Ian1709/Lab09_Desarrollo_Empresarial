@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 
-function useDebouncedValue(value, delay = 400) {
+/**
+ * Generic debounce hook: returns the latest value only after it has stayed
+ * unchanged for `delay` milliseconds.
+ */
+function useDebounce(value, delay = 400) {
   const [debouncedValue, setDebouncedValue] = useState(value)
 
   useEffect(() => {
@@ -14,4 +18,4 @@ function useDebouncedValue(value, delay = 400) {
   return debouncedValue
 }
 
-export default useDebouncedValue
+export default useDebounce
