@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
 import Hero from './components/Hero.jsx'
 import MovieList from './components/MovieList.jsx'
+import Toast from './components/Toast.jsx'
 import { movies } from './data/movies.js'
 import useDebouncedValue from './hooks/useDebouncedValue.js'
 import { readFavoriteIds, writeFavoriteIds } from './utils/favoritesStorage.js'
@@ -15,6 +16,9 @@ function App() {
   )
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebouncedValue(searchTerm, 400)
+  const [toast, setToast] = useState(null)
+
+  const dismissToast = useCallback(() => setToast(null), [])
 
   useEffect(() => {
     writeFavoriteIds(favoriteIds)
@@ -28,11 +32,24 @@ function App() {
   }, [searchTerm, debouncedSearchTerm])
 
   const toggleFavorite = (movieId) => {
+    const movie = movies.find((item) => item.id === movieId)
+    const wasFavorite = favoriteIds.includes(movieId)
+
     setFavoriteIds((currentIds) =>
       currentIds.includes(movieId)
         ? currentIds.filter((id) => id !== movieId)
         : [...currentIds, movieId],
     )
+
+    if (!movie) return
+
+    setToast({
+      id: Date.now(),
+      message: wasFavorite
+        ? `${movie.title} removed from favorites`
+        : `${movie.title} added to favorites`,
+      tone: wasFavorite ? 'info' : 'success',
+    })
   }
 
   const handleSearchSubmit = (event) => {
@@ -82,6 +99,13 @@ function App() {
       </main>
 
       <Footer />
+
+      <Toast
+        key={toast?.id}
+        message={toast?.message}
+        tone={toast?.tone}
+        onDismiss={dismissToast}
+      />
     </div>
   )
 }
