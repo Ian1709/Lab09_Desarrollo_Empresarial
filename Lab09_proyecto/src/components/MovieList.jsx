@@ -7,6 +7,7 @@ function MovieList({
   favoriteIds = [],
   onToggleFavorite,
   searchTerm = '',
+  cardsPerRow = 4,
 }) {
   if (!movies.length) {
     return <p className="movie-list__empty">No movies are available right now.</p>
@@ -39,7 +40,11 @@ function MovieList({
           Showing {visibleMovies.length} of {movies.length} movies.
         </p>
       )}
-      <div className="grid movie-list">
+      <div
+        className="grid movie-list"
+        style={{ '--cards-per-row': cardsPerRow }}
+        data-cards-per-row={cardsPerRow}
+      >
         {visibleMovies.map((movie) => (
           <MovieCard
             key={movie.id}

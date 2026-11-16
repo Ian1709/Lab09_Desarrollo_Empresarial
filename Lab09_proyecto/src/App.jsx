@@ -6,9 +6,17 @@ import MovieList from './components/MovieList.jsx'
 import Toast from './components/Toast.jsx'
 import { movies } from './data/movies.js'
 import useDebounce from './hooks/useDebounce.js'
+import useWindowSize from './hooks/useWindowSize.js'
 import { readFavoriteIds, writeFavoriteIds } from './utils/favoritesStorage.js'
 
 const validMovieIds = new Set(movies.map((movie) => movie.id))
+
+function getCardsPerRow(width) {
+  if (width >= 1280) return 4
+  if (width >= 960) return 3
+  if (width >= 640) return 2
+  return 1
+}
 
 function App() {
   const [favoriteIds, setFavoriteIds] = useState(() =>
@@ -17,6 +25,8 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 400)
   const [toast, setToast] = useState(null)
+  const { width } = useWindowSize()
+  const cardsPerRow = getCardsPerRow(width)
 
   const dismissToast = useCallback(() => setToast(null), [])
 
@@ -92,6 +102,7 @@ function App() {
                 favoriteIds={favoriteIds}
                 onToggleFavorite={toggleFavorite}
                 searchTerm={debouncedSearchTerm}
+                cardsPerRow={cardsPerRow}
               />
             </div>
           </div>

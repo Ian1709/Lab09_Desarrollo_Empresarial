@@ -800,7 +800,10 @@ button {
 .movie-card__schedules li { padding: 0.25rem 0.5rem; border-radius: var(--radius-sm); background: var(--color-background-soft); color: var(--color-text-secondary); font-size: var(--font-size-xs); }
 .movie-card__favorite { margin-top: auto; }
 .movie-list__section { margin-top: var(--space-2xl); }
-.movie-list { margin-top: var(--space-lg); }
+.movie-list {
+  margin-top: var(--space-lg);
+  grid-template-columns: repeat(var(--cards-per-row, 4), minmax(0, 1fr));
+}
 
 .movie-list__summary {
   margin-top: var(--space-lg);
