@@ -463,6 +463,18 @@ button {
   background: var(--color-surface-hover);
 }
 
+.button--ghost {
+  padding-inline: 0.75rem;
+  color: var(--color-text-secondary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3rem;
+}
+
+.button--ghost:hover {
+  color: var(--color-accent);
+}
+
 /* Forms
    ========================================================================== */
 

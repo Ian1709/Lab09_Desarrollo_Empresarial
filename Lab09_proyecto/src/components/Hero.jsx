@@ -1,8 +1,16 @@
 import Button from './Button.jsx'
 import MovieSearch from './MovieSearch.jsx'
 
-function Hero({ movie, searchTerm = '', onSearchChange, onSearchSubmit }) {
+function Hero({
+  movie,
+  searchTerm = '',
+  onSearchChange,
+  onSearchSubmit,
+  onClearSearch,
+}) {
   if (!movie) return null
+
+  const hasActiveFilter = searchTerm.trim().length > 0
 
   return (
     <section
@@ -27,6 +35,15 @@ function Hero({ movie, searchTerm = '', onSearchChange, onSearchSubmit }) {
           <Button href="#premieres" variant="secondary">
             Explore showtimes
           </Button>
+          {hasActiveFilter && (
+            <Button
+              variant="ghost"
+              className="hero__clear"
+              onClick={onClearSearch}
+            >
+              Clear filter
+            </Button>
+          )}
         </div>
       </div>
     </section>

@@ -80,6 +80,10 @@ function App() {
     })
   }
 
+  const handleClearSearch = () => {
+    setSearchTerm('')
+  }
+
   return (
     <div className="app" id="top">
       <Header favoriteCount={favoriteCount} />
@@ -88,6 +92,7 @@ function App() {
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
         onSearchSubmit={handleSearchSubmit}
+        onClearSearch={handleClearSearch}
       />
 
       <main className="main-content">
