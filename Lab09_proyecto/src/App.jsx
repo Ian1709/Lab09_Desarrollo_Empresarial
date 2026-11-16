@@ -3,6 +3,7 @@ import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
 import Hero from './components/Hero.jsx'
 import MovieList from './components/MovieList.jsx'
+import PremieresSection from './components/PremieresSection.jsx'
 import Toast from './components/Toast.jsx'
 import { movies } from './data/movies.js'
 import useDebounce from './hooks/useDebounce.js'
@@ -65,7 +66,7 @@ function App() {
   const handleSearchSubmit = (event) => {
     event.preventDefault()
 
-    const billboard = document.getElementById('premieres')
+    const billboard = document.getElementById('billboard-movies')
     if (!billboard) return
 
     const prefersReducedMotion = window.matchMedia(
@@ -95,7 +96,7 @@ function App() {
             <p className="section-description">
               Discover the latest releases and reserve your seats at CineStar.
             </p>
-            <div id="premieres" className="movie-list__section">
+            <div id="billboard-movies" className="movie-list__section">
               <h2 className="visually-hidden">Available movies</h2>
               <MovieList
                 movies={movies}
@@ -107,6 +108,8 @@ function App() {
             </div>
           </div>
         </section>
+
+        <PremieresSection />
       </main>
 
       <Footer />

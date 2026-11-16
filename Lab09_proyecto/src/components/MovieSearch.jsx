@@ -18,7 +18,7 @@ function MovieSearch({ value = '', onChange, onSubmit }) {
         onChange={handleChange}
         placeholder="Search movies by title..."
         autoComplete="off"
-        aria-controls="premieres"
+        aria-controls="billboard-movies"
       />
       <Button type="submit" variant="primary">
         Search movies
