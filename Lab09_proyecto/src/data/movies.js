@@ -1,86 +1,90 @@
+import { adaptMovies } from '../utils/movieAdapter.js'
+
 /**
- * Movie billboard data for the CineStar platform.
- * Each movie includes the information required to render its card and schedules.
+ * Raw billboard payload, shaped like an external movie API response.
+ * It is passed through adaptMovies before reaching the UI.
  */
-export const movies = [
+export const movieCatalog = [
   {
-    id: 1,
+    movieId: 1,
     title: 'Inception',
-    image: 'https://image.tmdb.org/t/p/w500/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg',
-    synopsis:
+    posterUrl: 'https://image.tmdb.org/t/p/w500/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg',
+    overview:
       'A skilled thief who steals secrets from dreams is offered a chance to erase his past by planting an idea in a target mind.',
-    classification: 'PG-13',
-    rating: 8.8,
-    schedules: ['14:30', '17:45', '20:30'],
+    ageRating: 'PG-13',
+    voteAverage: 8.8,
+    showtimes: ['14:30', '17:45', '20:30'],
   },
   {
-    id: 2,
+    movieId: 2,
     title: 'Interstellar',
-    image: 'https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg',
-    synopsis:
+    posterUrl: 'https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg',
+    overview:
       'A team of explorers travels through a wormhole in search of a new home for humanity as Earth becomes uninhabitable.',
-    classification: 'PG-13',
-    rating: 8.7,
-    schedules: ['13:00', '16:30', '21:00'],
+    ageRating: 'PG-13',
+    voteAverage: 8.7,
+    showtimes: ['13:00', '16:30', '21:00'],
   },
   {
-    id: 3,
+    movieId: 3,
     title: 'The Dark Knight',
-    image: 'https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg',
-    synopsis:
+    posterUrl: 'https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg',
+    overview:
       'Batman faces the Joker, a criminal mastermind who pushes Gotham City into chaos and tests the hero’s moral limits.',
-    classification: 'PG-13',
-    rating: 9.0,
-    schedules: ['15:15', '18:00', '21:30'],
+    ageRating: 'PG-13',
+    voteAverage: 9.0,
+    showtimes: ['15:15', '18:00', '21:30'],
   },
   {
-    id: 4,
+    movieId: 4,
     title: 'Dune: Part Two',
-    image: 'https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg',
-    synopsis:
+    posterUrl: 'https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg',
+    overview:
       'Paul Atreides unites with the Fremen to seek revenge against the conspirators who destroyed his family and decide the fate of the universe.',
-    classification: 'PG-13',
-    rating: 8.5,
-    schedules: ['12:45', '16:00', '19:45', '22:15'],
+    ageRating: 'PG-13',
+    voteAverage: 8.5,
+    showtimes: ['12:45', '16:00', '19:45', '22:15'],
   },
   {
-    id: 5,
+    movieId: 5,
     title: 'Oppenheimer',
-    image: 'https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg',
-    synopsis:
+    posterUrl: 'https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg',
+    overview:
       'The story of J. Robert Oppenheimer and the scientific team that developed the atomic bomb during the Second World War.',
-    classification: 'R',
-    rating: 8.4,
-    schedules: ['14:00', '17:30', '20:45'],
+    ageRating: 'R',
+    voteAverage: 8.4,
+    showtimes: ['14:00', '17:30', '20:45'],
   },
   {
-    id: 6,
+    movieId: 6,
     title: 'Spider-Man: Across the Spider-Verse',
-    image: 'https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg',
-    synopsis:
+    posterUrl: 'https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg',
+    overview:
       'Miles Morales returns for an adventure across the multiverse, where he must redefine what it means to be a hero.',
-    classification: 'PG',
-    rating: 8.6,
-    schedules: ['11:30', '14:15', '17:00', '19:30'],
+    ageRating: 'PG',
+    voteAverage: 8.6,
+    showtimes: ['11:30', '14:15', '17:00', '19:30'],
   },
   {
-    id: 7,
+    movieId: 7,
     title: 'The Batman',
-    image: 'https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onhq.jpg',
-    synopsis:
+    posterUrl: 'https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onhq.jpg',
+    overview:
       'In his second year of fighting crime, Batman uncovers corruption in Gotham City while tracking a serial killer known as the Riddler.',
-    classification: 'PG-13',
-    rating: 7.8,
-    schedules: ['15:00', '18:30', '21:45'],
+    ageRating: 'PG-13',
+    voteAverage: 7.8,
+    showtimes: ['15:00', '18:30', '21:45'],
   },
   {
-    id: 8,
+    movieId: 8,
     title: 'Top Gun: Maverick',
-    image: 'https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg',
-    synopsis:
+    posterUrl: 'https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg',
+    overview:
       'After more than thirty years of service, Maverick trains a group of elite pilots for a mission that demands the ultimate sacrifice.',
-    classification: 'PG-13',
-    rating: 8.3,
-    schedules: ['13:30', '16:45', '20:00'],
+    ageRating: 'PG-13',
+    voteAverage: 8.3,
+    showtimes: ['13:30', '16:45', '20:00'],
   },
 ]
+
+export const movies = adaptMovies(movieCatalog)
