@@ -53,24 +53,40 @@ Cada paso importante se registró en un commit independiente (ver sección 13).
 ## 3. Árbol de componentes y dato que vive en cada nivel
 
 ```text
-App                                  ← dueño del estado de la aplicación
-├── Header                           ← solo recibe favoriteCount (número)
-├── Hero                             ← recibe la película y el texto de búsqueda
-│   ├── MovieSearch                  ← entrada controlada (value + onChange)
-│   └── Button ×2                    ← "Explore showtimes" y "Clear filter"
+App                                  ★ estado propio: favoriteIds, searchTerm, toast
+│                                    ★ derivados: favoriteCount, cardsPerRow
+├── Header                           ○ sin estado · prop: favoriteCount (número)
+├── Hero                             ○ sin estado · props: movie, searchTerm,
+│   │                                  onSearchChange, onSearchSubmit, onClearSearch
+│   ├── MovieSearch                  ○ sin estado · props: value, onChange, onSubmit
+│   └── Button ×2                    ○ sin estado · props: variant, onClick / href
 ├── main
 │   ├── section#billboard
-│   │   └── MovieList                ← recibe movies, searchTerm y cardsPerRow
-│   │       └── MovieCard            ← recibe movie, isFavorite y el callback
-│   │           └── Button           ← botón de favorita
-│   └── PremieresSection             ← usa usePremieres y el estado local del simulador
-│       ├── PremieresSkeleton        ← estado loading
-│       ├── PremieresCarousel        ← estado success
-│       │   ├── Button ×2            ← flechas del carrusel
-│       │   └── PremiereCard         ← recibe una premiere ya adaptada
-│       └── Panel de error           ← estado error + botón "Try again"
-├── Footer
-└── Toast                            ← recibe message, tone y onDismiss
+│   │   └── MovieList                ○ sin estado · props: movies, favoriteIds,
+│   │       │                          searchTerm (ya retardado), cardsPerRow,
+│   │       │                          onToggleFavorite
+│   │       │                        ★ derivado en render: visibleMovies
+│   │       └── MovieCard            ○ sin estado · props: movie, isFavorite,
+│   │           │                      onToggleFavorite
+│   │           └── Button           ○ sin estado · props: variant, aria-pressed, onClick
+│   └── PremieresSection             ★ estado propio: simulateError (solo DEV)
+│       │                            ◇ hook: usePremieres → status, data, error, retry
+│       ├── PremieresSkeleton        ○ sin estado · prop opcional: count
+│       ├── PremieresCarousel        ○ sin estado · prop: premieres
+│       │   ├── Button ×2            ○ sin estado · flechas del carrusel
+│       │   └── PremiereCard         ○ sin estado · prop: premiere (ya adaptada)
+│       └── Panel de error           ○ sin estado · props: error, retry
+├── Footer                           ○ sin estado
+└── Toast                            ○ sin estado · props: message, tone, onDismiss
+```
+
+Los hooks no son componentes: su estado interno vive en el componente que los
+invoca.
+
+```text
+useDebounce   (invocado en App)               ★ estado interno: debouncedValue
+useWindowSize (invocado en App)               ★ estado interno: { width, height }
+usePremieres  (invocado en PremieresSection)  ★ estado interno: result, attempt
 ```
 
 ### 3.1 Dato que vive en cada nivel
@@ -338,6 +354,19 @@ function Header({ favoriteCount = 0 }) {
 }
 ```
 
+Flujo del dato, desde la tarjeta hasta la cabecera:
+
+```text
+MovieCard                  MovieList                    App                     Header
+    │  onToggleFavorite(id)    │                          │                        │
+    ├─────────────────────────▶│  onToggleFavorite(id)    │                        │
+    │                          ├─────────────────────────▶│                        │
+    │                          │      setFavoriteIds      │                        │
+    │                          │                          │ favoriteCount = length │
+    │                          │                          ├───────────────────────▶│
+    │                          │                          │    (solo el número)    │
+```
+
 **Por qué el contador no puede vivir en la cabecera:**
 
 1. **`Header` no es el ancestro común.** Las acciones que modifican las
@@ -357,6 +386,16 @@ function Header({ favoriteCount = 0 }) {
    compartir el estado entre la cabecera y las tarjetas, y además es donde vive
    la persistencia. Elevar solo el número (no la lista completa) cumple el
    requisito sin exponer detalles innecesarios.
+
+Comparación concreta:
+
+| Si el contador viviera en `Header` | Con el diseño actual |
+| --- | --- |
+| `Header` necesitaría `favoriteIds` y `toggleFavorite`, o habría que mover allí el estado y bajar la lista por `Hero` y `MovieList`. | `App` conserva la lista y los callbacks; `Header` recibe solo `favoriteCount`. |
+| La persistencia en `localStorage` tendría que duplicarse o moverse a la cabecera. | La persistencia sigue en un único `useEffect` de `App`. |
+| Un clic en una tarjeta no actualizaría la cabecera sin elevar el evento hasta `App` y volver a bajarlo. | `App` actualiza `favoriteIds` y el nuevo número llega a `Header` en el mismo render. |
+| `Header` dejaría de ser un componente de presentación y dependería del dominio de películas. | `Header` sigue siendo reutilizable y solo muestra un resumen. |
+| Tras una recarga, la lista de `Header` y la de `App` podrían divergir. | Solo hay una fuente de verdad, por lo que no hay divergencia posible. |
 
 En resumen: **la lista vive donde se modifica y se persiste (`App`); la cabecera
 recibe únicamente el dato derivado que necesita mostrar.**
