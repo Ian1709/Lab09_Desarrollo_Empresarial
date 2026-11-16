@@ -28,6 +28,7 @@ function App() {
   const [toast, setToast] = useState(null)
   const { width } = useWindowSize()
   const cardsPerRow = getCardsPerRow(width)
+  const favoriteCount = favoriteIds.length
 
   const dismissToast = useCallback(() => setToast(null), [])
 
@@ -81,7 +82,7 @@ function App() {
 
   return (
     <div className="app" id="top">
-      <Header />
+      <Header favoriteCount={favoriteCount} />
       <Hero
         movie={movies[0]}
         searchTerm={searchTerm}

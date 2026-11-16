@@ -5,7 +5,7 @@ const navigationLinks = [
   { id: 'contact', label: 'Contact', href: '#contact' },
 ]
 
-function Header() {
+function Header({ favoriteCount = 0 }) {
   return (
     <header className="site-header">
       <div className="container header__inner">
@@ -18,17 +18,37 @@ function Header() {
           </span>
         </a>
 
-        <nav className="navigation" aria-label="Main navigation">
-          <ul className="navigation__list">
-            {navigationLinks.map((link) => (
-              <li key={link.id}>
-                <a className="navigation__link" href={link.href}>
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <div className="header__actions">
+          <nav className="navigation" aria-label="Main navigation">
+            <ul className="navigation__list">
+              {navigationLinks.map((link) => (
+                <li key={link.id}>
+                  <a className="navigation__link" href={link.href}>
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <p
+            className="favorite-counter"
+            aria-live="polite"
+            aria-label={`${favoriteCount} favorite ${
+              favoriteCount === 1 ? 'movie' : 'movies'
+            }`}
+          >
+            <span className="favorite-counter__icon" aria-hidden="true">
+              ★
+            </span>
+            <span className="favorite-counter__value font-numeric">
+              {favoriteCount}
+            </span>
+            <span className="favorite-counter__label" aria-hidden="true">
+              {favoriteCount === 1 ? 'favorite' : 'favorites'}
+            </span>
+          </p>
+        </div>
       </div>
     </header>
   )

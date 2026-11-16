@@ -620,6 +620,38 @@ button {
   min-height: var(--header-height);
 }
 
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2rem);
+}
+
+.favorite-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.45rem 0.85rem;
+  border: 1px solid rgba(242, 181, 68, 0.35);
+  border-radius: var(--radius-pill);
+  background: rgba(242, 181, 68, 0.1);
+  color: var(--color-accent);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.favorite-counter__icon {
+  font-size: var(--font-size-base);
+  line-height: 1;
+}
+
+.favorite-counter__label {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 .brand {
   display: inline-flex;
   align-items: center;
@@ -1106,6 +1138,13 @@ button {
   .navigation {
     width: 100%;
     overflow-x: auto;
+  }
+
+  .header__actions {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: var(--space-xs);
   }
 
   .navigation__list {
