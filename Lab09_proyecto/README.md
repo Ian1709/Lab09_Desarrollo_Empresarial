@@ -13,17 +13,21 @@ El historial de Git registra las contribuciones de ambos integrantes:
 
 ## Funcionalidades
 
-- Encabezado con marca CineStar y navegación a las secciones de la página.
-- Banner destacado con imagen, sinopsis, clasificación, valoración, buscador y acceso a horarios.
-- Cartelera renderizada desde datos locales mediante componentes reutilizables.
+- Encabezado con marca CineStar, navegación y contador de películas favoritas.
+- Banner destacado con imagen, sinopsis, clasificación, valoración, buscador, acceso a horarios y acción para limpiar el filtro.
+- Cartelera renderizada desde datos locales mediante componentes reutilizables y un adaptador que normaliza el modelo.
 - Tarjetas con póster, título, valoración, clasificación, horarios y botón de favorita.
 - Favoritas persistentes en `localStorage`, recuperadas al cargar la página.
-- Buscador controlado con retardo de 400 ms, filtrado por título, resumen de resultados y estado vacío.
+- Aviso emergente al marcar o desmarcar una favorita, gestionado desde `App` sin acoplar la tarjeta.
+- Buscador controlado con el hook propio `useDebounce` (400 ms), filtrado por título, resumen de resultados y estado vacío.
+- Hook propio `useWindowSize` que ajusta la cantidad de tarjetas por fila según el ancho de la ventana.
+- Sección de estrenos con el hook `usePremieres`: esqueleto de carga, carrusel de datos y estado de error con reintento.
 - Botón reutilizable con variantes de estilo y soporte para enlaces.
 - Diseño adaptable a distintos tamaños de pantalla y preferencias de movimiento reducido.
 - Pie de página con contacto, enlaces y horario de atención.
 - Registro de ejemplos y soluciones de errores comunes en [`ERRORS_LOG.md`](./ERRORS_LOG.md).
 - Decisiones de estado y evidencias de la segunda etapa en [`docs/ENTREGABLE_PARTE2.md`](./docs/ENTREGABLE_PARTE2.md).
+- Hooks, adaptador, estrenos y árbol de componentes del Laboratorio 10 en [`docs/ENTREGABLE_LAB10.md`](./docs/ENTREGABLE_LAB10.md).
 
 ## Tecnologías
 
@@ -69,25 +73,48 @@ src/
 │   ├── Hero.jsx
 │   ├── MovieCard.jsx
 │   ├── MovieList.jsx
-│   └── MovieSearch.jsx
+│   ├── MovieSearch.jsx
+│   ├── PremiereCard.jsx
+│   ├── PremieresCarousel.jsx
+│   ├── PremieresSection.jsx
+│   ├── PremieresSkeleton.jsx
+│   └── Toast.jsx
 ├── data/
-│   └── movies.js
+│   ├── movies.js
+│   └── premieres.js
 ├── hooks/
-│   └── useDebouncedValue.js
+│   ├── useDebounce.js
+│   ├── usePremieres.js
+│   └── useWindowSize.js
+├── services/
+│   └── premieresService.js
 ├── styles/
 │   └── App.css
 ├── utils/
-│   └── favoritesStorage.js
+│   ├── favoritesStorage.js
+│   └── movieAdapter.js
 ├── App.jsx
 └── main.jsx
 docs/
+├── ENTREGABLE_LAB10.md
 ├── ENTREGABLE_PARTE2.md
 └── evidence/
-    └── empty-search.png
+    ├── empty-search.png
+    ├── lab10-favorite-counter.jpeg
+    ├── lab10-premieres-error.jpeg
+    ├── lab10-premieres-loading.jpeg
+    └── lab10-premieres-success.jpeg
 ERRORS_LOG.md
 ```
 
-Los datos de las películas se mantienen en `src/data/movies.js`; `App.jsx` los entrega a `Hero` y `MovieList` mediante props, y también concentra el estado de favoritas y de búsqueda. `MovieList` crea una tarjeta por película, utiliza `movie.id` como clave y filtra el arreglo según el texto ya retardado. `MovieCard` reutiliza `Button` para la acción de favorita.
+Los datos de las películas se guardan en `src/data/movies.js` como payload crudo
+y se pasan por `src/utils/movieAdapter.js` antes de llegar a la interfaz. `App.jsx`
+entrega el modelo adaptado a `Hero` y `MovieList` mediante props, y concentra el
+estado de favoritas, búsqueda y aviso emergente. `MovieList` crea una tarjeta por
+película, filtra el arreglo con el texto ya retardado por `useDebounce` y ajusta
+las columnas con `useWindowSize`. `PremieresSection` usa `usePremieres` para
+mostrar el esqueleto, el carrusel o el error de la petición simulada. El detalle
+del árbol y de las decisiones está en `docs/ENTREGABLE_LAB10.md`.
 
 ## Errores comunes documentados
 
