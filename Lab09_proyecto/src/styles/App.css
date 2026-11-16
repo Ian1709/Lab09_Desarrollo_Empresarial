@@ -31,6 +31,8 @@
   --font-size-xl: 1.5rem;
   --font-size-2xl: 2rem;
   --font-size-3xl: clamp(2.25rem, 4vw, 3.25rem);
+  --font-size-4xl: clamp(2.5rem, 5vw, 3.75rem);
+  --font-mono: 'Cascadia Mono', 'Segoe UI Mono', Consolas, monospace;
   --line-height-tight: 1.2;
   --line-height-base: 1.6;
 
@@ -241,6 +243,33 @@ button {
   text-wrap: balance;
 }
 
+.text-uppercase {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.text-nowrap {
+  white-space: nowrap;
+}
+
+.font-display {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-4xl);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.font-numeric {
+  font-variant-numeric: tabular-nums;
+}
+
+.lead {
+  max-width: 62ch;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-lg);
+}
+
 /* Layout utilities
    ========================================================================== */
 
@@ -250,11 +279,69 @@ button {
   gap: var(--space-md);
 }
 
+.stack--sm {
+  gap: var(--space-sm);
+}
+
+.stack--lg {
+  gap: var(--space-xl);
+}
+
 .cluster {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-sm);
+}
+
+.cluster--between {
+  justify-content: space-between;
+}
+
+.section-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
+}
+
+.section-header__content {
+  flex: 1 1 24rem;
+}
+
+.section-header__content .section-title {
+  margin-bottom: var(--space-sm);
+}
+
+.section-header__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.surface {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--color-background-soft);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 /* Featured movie */
